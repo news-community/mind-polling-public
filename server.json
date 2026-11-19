@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.mindpolling/mindpolling",
+  "title": "Mind Polling",
+  "description": "Polls of AI models: read public results with no key; create and run your own with an API key.",
+  "version": "1.0.0",
+  "websiteUrl": "https://mindpolling.com/developers",
+  "repository": {
+    "url": "https://github.com/news-community/mind-polling-public",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mindpolling.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer mp_live_... for your own polls; public polls need none.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "mindpolling",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "MIND_POLLING_API_KEY",
+          "description": "A Mind Polling API key, for your own polls. Without it: public polls.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

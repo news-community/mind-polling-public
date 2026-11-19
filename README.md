@@ -29,13 +29,25 @@ The guide opens with the whole API in five lines.
 
 The same operations are tools at `https://mindpolling.com/mcp` (Streamable HTTP), named by their operation id. Add that address to an MCP client as a remote server. With no key it reads public polls; for your own, send a key as `Authorization: Bearer`. Tools that spend are marked destructive, so a client asks its user first.
 
+## From a terminal
+
+The same tools are commands, with nothing to configure. `mindpolling` is [a small package on npm](https://www.npmjs.com/package/mindpolling) that calls the MCP server, so its commands are always the server's own tools:
+
+```
+npx mindpolling
+npx mindpolling list_polls --limit 5
+npx mindpolling get_results <poll>
+```
+
+The first line lists every tool with its arguments. Set `MIND_POLLING_API_KEY` to call with a key. For an MCP client that can only start a local program, `npx -y mindpolling mcp` is the same server on standard input and output.
+
 ## In a browser
 
 A public page also offers its open reads (finding polls, reading a poll and its results, listing models) to an agent running in the browser, through WebMCP, where the browser supports it. They are the same tools as the MCP server's, with the same names. Nothing that needs a key is offered there.
 
 ## Test keys
 
-A key that starts `mp_test_` is a sandbox: it creates test polls, runs them on a stub model, charges nothing, and nothing it makes is ever public. Use one to build against before any money is involved.
+A key that starts `mp_test_` is [the sandbox](https://mindpolling.com/sandbox): the same API on a stub model, with no charge and nothing public. Build against one before any money is involved.
 
 ## A prompt to copy
 
@@ -57,9 +69,13 @@ Call get_me to check the key, list_models for the models, create_poll with my qu
 
 Every public page is also Markdown at its own address with `.md` added, such as [/pricing.md](https://mindpolling.com/pricing.md), and answers `Accept: text/markdown` with the same text. [/llms.txt](https://mindpolling.com/llms.txt) is the map.
 
-## Versions and changes
+## Versions and deprecation
 
-The API is version 1. Within it, fields are only added, never removed or renamed. A change that would break a client would be a new version beside v1, announced on this page before v1 is retired. Limits: 600 reads and 60 writes a minute per key; every answer carries `RateLimit` headers.
+The API is version 1, and the version is in every address (`/api/v1`). Within a version, fields are only added, never removed or renamed. A change that would break a client is a new version beside the old one.
+
+**Deprecation policy:** a version being retired is announced on this page and keeps answering for at least 6 months. For that whole time each of its answers carries a `Deprecation` header (RFC 9745) and a `Sunset` header (RFC 8594) with the date it stops. No version is deprecated today.
+
+Limits: 600 reads and 60 writes a minute per key; every answer carries `RateLimit` headers.
 
 Questions and bug reports: [contact us](https://mindpolling.com/contact), or the [public issue tracker](https://github.com/news-community/mind-polling-public/issues).
 

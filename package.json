@@ -1,0 +1,36 @@
+{
+  "name": "mindpolling",
+  "version": "1.0.0",
+  "description": "Mind Polling from a terminal: polls of AI models, read and run as commands that are the hosted MCP server's own tools, or bridged to a local MCP client.",
+  "mcpName": "com.mindpolling/mindpolling",
+  "type": "module",
+  "bin": {
+    "mindpolling": "bin/mindpolling.mjs"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@modelcontextprotocol/server": "2.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/news-community/mind-polling-public.git"
+  },
+  "bugs": "https://github.com/news-community/mind-polling-public/issues",
+  "homepage": "https://mindpolling.com/developers",
+  "keywords": [
+    "mindpolling",
+    "mind-polling",
+    "cli",
+    "mcp",
+    "ai",
+    "polls",
+    "llm"
+  ],
+  "license": "MIT-0"
+}
