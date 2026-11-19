@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mind-polling": {
+      "type": "http",
+      "url": "https://mindpolling.com/mcp"
+    }
+  }
+}
