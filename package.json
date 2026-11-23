@@ -1,6 +1,6 @@
 {
   "name": "mindpolling",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Mind Polling from a terminal: polls of AI models, read and run as commands that are the hosted MCP server's own tools, or bridged to a local MCP client.",
   "mcpName": "com.mindpolling/mindpolling",
   "type": "module",
