@@ -5,10 +5,13 @@
 ## Without a key, and with one
 
 - **No key:** find public polls and read their latest results, up to 120 requests a minute per address.
+- **No key, for a person without an account:** price a poll (`price_poll`), or draft one for them (`draft_poll`). A draft is a private link that opens the builder with the poll filled in once they sign in or sign up; it lasts 30 days, and nothing runs or costs anything until they check it, save it and start it themselves.
 - **A key with the read scope:** results as they stood at a past moment, the feed of changes, and your own polls. It is free and can spend nothing.
 - **A key with write and run:** create polls and run them. A run spends the account's prepaid balance, so every call that spends must say the most it may cost (`max_cost_usd`), and is refused without it.
 
 A key is made by the account holder, on [the API keys page](https://mindpolling.com/app/settings/api), never by a program. [How keys work](https://mindpolling.com/auth.md) covers scopes, spending limits and what is logged.
+
+If something blocks your agent or answers wrong, `give_feedback` tells us, with or without a key. A person reads every message.
 
 ## The API
 
@@ -63,6 +66,12 @@ Call list_polls, pick the poll that fits, then get_results for it. Report each m
 
 ```
 Call get_me to check the key, list_models for the models, create_poll with my questions, then estimate_poll. Tell me the cost and wait for my yes before run_poll_now with max_cost_usd set to that amount. Then follow it with get_live_run and report get_results.
+```
+
+**Draft a poll for me to open, check and start, without an account or key.**
+
+```
+Ask me what I want to find out. Call list_models, then price_poll with the questions, wordings and models you propose, and tell me the price per run and per month. When I agree, call draft_poll and give me its link: I open it, sign in or sign up, check every question and model, and start it myself.
 ```
 
 ## Reading pages as Markdown
