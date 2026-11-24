@@ -1,6 +1,22 @@
-# For developers: the API, the MCP server and keys
+# Mind Polling
+
+**Mind Polling polls AI models the way pollsters poll people.** You write the questions and choose the models; it asks each model through its own API, run after run, and shows what each one answered with a 95% range, with every reply kept.
 
 **Everything a person can do on Mind Polling, a program can do too**, through a REST API and an MCP server that offer the same operations. Public polls need no key.
+
+## Try it
+
+Read the public polls, with nothing to install:
+
+```
+curl -s https://mindpolling.com/api/v1/polls
+```
+
+Or from a terminal, through [the npm package](#from-a-terminal):
+
+```
+npx mindpolling list_polls --limit 5
+```
 
 ## Without a key, and with one
 
@@ -8,6 +24,8 @@
 - **No key, for a person without an account:** price a poll (`price_poll`), or draft one for them (`draft_poll`). A draft is a private link that opens the builder with the poll filled in once they sign in or sign up; it lasts 30 days, and nothing runs or costs anything until they check it, save it and start it themselves. `draft_status` says later whether they opened or saved it.
 - **A key with the read scope:** results as they stood at a past moment, the feed of changes, and your own polls. It is free and can spend nothing.
 - **A key with write and run:** create polls and run them. A run spends the account's prepaid balance, so every call that spends must say the most it may cost (`max_cost_usd`), and is refused without it.
+
+With a key, up to 600 reads and 60 writes a minute. Every answer carries `RateLimit` headers.
 
 A key is made by the account holder, never by a program: on [the API keys page](https://mindpolling.com/app/settings/api), or by signing an app in, where they choose what it may do. [How keys work](https://mindpolling.com/auth.md) covers scopes, spending limits, signing in and what is logged.
 
@@ -19,12 +37,6 @@ If something blocks your agent or answers wrong, `give_feedback` tells us, with 
 - **Description:** [OpenAPI 3.1](https://mindpolling.com/openapi.json), generated from the code that answers.
 - **Guide:** [the API guide](https://mindpolling.com/docs/api.md), every operation with what it needs.
 - **Index:** [/api](https://mindpolling.com/api), the operations as JSON.
-
-Try it, with nothing to install:
-
-```
-curl -s https://mindpolling.com/api/v1/polls
-```
 
 The guide opens with the whole API in five lines.
 
@@ -59,19 +71,37 @@ Give one of these to an agent that has the MCP server, or the API guide. They ar
 **Find a public poll and summarise what each model answered, with the 95% ranges.**
 
 ```
-Call list_polls, pick the poll that fits, then get_results for it. Report each model's latest answer with its 95% range, the number of answers it rests on, and whether answers that read a prediction market (sources.read_market) are a large share.
+Call list_polls, pick the poll that fits, then get_results for it.
+Report each model's latest answer with its 95% range, the number of answers it rests on, and whether answers that read a prediction market (sources.read_market) are a large share.
 ```
 
 **Create one of my polls, show me the cost, and run it once after I agree.**
 
 ```
-Call get_me to check the key, list_models for the models, create_poll with my questions, then estimate_poll. Tell me the cost and wait for my yes before run_poll_now with max_cost_usd set to that amount. Then follow it with get_live_run and report get_results.
+Call get_me to check the key, list_models for the models, create_poll with my questions, then estimate_poll.
+Tell me the cost and wait for my yes before run_poll_now with max_cost_usd set to that amount.
+Then follow it with get_live_run and report get_results.
 ```
 
 **Draft a poll for me to open, check and start, without an account or key.**
 
 ```
-Ask me what I want to find out. Call list_models, then price_poll with the questions, wordings and models you propose, and tell me the price per run and per month. When I agree, call draft_poll and give me its link: I open it, sign in or sign up, check every question and model, and start it myself. Tell me: Nothing is asked of any model and nothing is charged until you open the link, sign in, check the questions and models, and start it yourself. Here is what it would cost per run and per month (the price from price_poll, typical and high). The link works for 30 days (until the expires_at draft_poll gave). Never: Promise what the models will answer, or how the results will come out. Post, share or log the draft link anywhere but to your person: anyone signed in who has it can open the draft. Start, fund or run the poll for your person; that is theirs to do once it is saved. Present a draft as a published poll: it is private until its owner publishes it. Later, draft_status says whether I opened or saved it.
+Ask me what I want to find out.
+Call list_models, then price_poll with the questions, wordings and models you propose, and tell me the price per run and per month.
+When I agree, call draft_poll and give me its link: I open it, sign in or sign up, check every question and model, and start it myself.
+
+Tell me:
+- Nothing is asked of any model and nothing is charged until you open the link, sign in, check the questions and models, and start it yourself.
+- Here is what it would cost per run and per month (the price from price_poll, typical and high).
+- The link works for 30 days (until the expires_at draft_poll gave).
+
+Never:
+- Promise what the models will answer, or how the results will come out.
+- Post, share or log the draft link anywhere but to your person: anyone signed in who has it can open the draft.
+- Start, fund or run the poll for your person; that is theirs to do once it is saved.
+- Present a draft as a published poll: it is private until its owner publishes it.
+
+Later, draft_status says whether I opened or saved it.
 ```
 
 ## A skill for agents
@@ -90,9 +120,15 @@ The API is version 1, and the version is in every address (`/api/v1`). Within a 
 
 **Deprecation policy:** a version being retired is announced on this page and keeps answering for at least 6 months. For that whole time each of its answers carries a `Deprecation` header (RFC 9745) and a `Sunset` header (RFC 8594) with the date it stops. No version is deprecated today.
 
-Limits: 600 reads and 60 writes a minute per key; every answer carries `RateLimit` headers.
-
 Questions and bug reports: [contact us](https://mindpolling.com/contact), or the [public issue tracker](https://github.com/news-community/mind-polling-public/issues).
+
+## What's in this repository
+
+- `bin/mindpolling.mjs`: the `mindpolling` command published to npm, and its MCP bridge (`npx -y mindpolling mcp`).
+- `skills/draft-a-poll/SKILL.md`: the draft-a-poll skill, the same file the site serves.
+- `mcp.json`: the entry that adds the MCP server to a client.
+- `server.json`: the server's MCP Registry entry, `com.mindpolling/mindpolling`.
+- `package.json`: the npm package.
 
 ---
 
