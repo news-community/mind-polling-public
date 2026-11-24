@@ -27,7 +27,7 @@ npx mindpolling list_polls --limit 5
 
 With a key, up to 600 reads and 60 writes a minute. Every answer carries `RateLimit` headers.
 
-A key is made by the account holder, never by a program: on [the API keys page](https://mindpolling.com/app/settings/api), or by signing an app in, where they choose what it may do. [How keys work](https://mindpolling.com/auth.md) covers scopes, spending limits, signing in and what is logged.
+A key is made by a person, never by a program: on [the API keys page](https://mindpolling.com/app/settings/api), or by signing an app in, where they choose what it may do. It belongs to one account (a personal one, or a shared one its members work in together) and can never do more than its maker's role there. [How keys work](https://mindpolling.com/auth.md) covers scopes, spending limits, signing in and what is logged.
 
 If something blocks your agent or answers wrong, `give_feedback` tells us, with or without a key. A person reads every message.
 
