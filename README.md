@@ -31,6 +31,10 @@ A key is made by a person, never by a program: on [the API keys page](https://mi
 
 If something blocks your agent or answers wrong, `give_feedback` tells us, with or without a key. A person reads every message.
 
+## Be told when answers change
+
+Follow a poll (`follow_poll`, with a key that can write; any public poll, or your own) and you are told when its answers really change: a model's answer moving beyond its 95% range since the poll's last change, or a model changing version. Each is one `results.changed` event, saying what moved and since which run. Read them from `list_changes?following=true` with a cursor, or have them sent to a webhook with scope `following`. Following runs nothing and costs nothing. `list_follows` lists what you follow, and `unfollow_poll` stops.
+
 ## The API
 
 - **Base address:** `https://mindpolling.com/api/v1`
