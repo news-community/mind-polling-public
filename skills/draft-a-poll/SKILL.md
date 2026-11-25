@@ -18,7 +18,7 @@ The map: [llms.txt](https://mindpolling.com/llms.txt) for the site, [the API gui
 5. Give the person the link, with the lines below.
 6. Later, `draft_status` (POST https://mindpolling.com/api/v1/drafts/status, the link's `draft=` token in the body): `waiting`, `opened`, `saved` or `expired`. Follow up from that instead of asking them. Once saved, the poll is theirs and you learn nothing more about it.
 
-If something blocks you or answers wrong, say so with `give_feedback` (POST https://mindpolling.com/api/v1/feedback); never include the link.
+If something blocks you or answers wrong, offer to report it with `give_feedback` (POST https://mindpolling.com/api/v1/feedback): show the person the message and send it only if they agree, and never include the link.
 
 ## Say
 
